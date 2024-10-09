@@ -48,7 +48,7 @@ public class GameScreenController {
         AnimationTimer animationTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                updateSmallSquares();
+                updateSmallSquares(now);
                 drawAll(); // Zeichne alles (Hauptquadrat und kleine Quadrate)
             }
         };
@@ -78,9 +78,29 @@ public class GameScreenController {
     }
 
     // Methode zum Aktualisieren der kleinen Quadrate
-    private void updateSmallSquares() {
+    private void updateSmallSquares(long now) {
         for (SmallSquare smallSquare : smallSquares) {
             smallSquare.move(canvas.getWidth()); // Bewege jedes kleine Quadrat
+
+            // Überprüfe, ob es Zeit ist, ein Projektil zu schießen (alle 2 Sekunden)
+            if (smallSquare.canShootProjectile(now)) {
+                smallSquare.shootProjectile();
+            }
+
+            // Überprüfe, ob ein Projektil das Hauptquadrat trifft
+            if (smallSquare.isProjectileCollidingWith(squareX, squareY, squareSize)) {
+                loseLife(); // Leben abziehen, wenn das Hauptquadrat getroffen wird
+            }
+        }
+    }
+
+    // Methode zum Leben abziehen, wenn ein Projektil das Hauptquadrat trifft
+    private void loseLife() {
+        lives--;
+        updateLivesLabel();
+        if (lives <= 0) {
+            System.out.println("Game Over");
+            // Hier könntest du die Logik für das Spielende hinzufügen
         }
     }
 
