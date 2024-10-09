@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.canvas.Canvas?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="at.ac.fhcampuswien.space_invader.GameScreenController"
+      prefHeight="400.0" prefWidth="600.0">
+
+    <!-- Pane für den Spieletitel -->
+    <Pane prefHeight="40.0">
+        <Label text="Space Invader" style="-fx-font-size: 24px; -fx-text-fill: black;" />
+    </Pane>
+
+    <!-- HBox für Score und Lives -->
+    <HBox alignment="CENTER_LEFT" spacing="20" prefHeight="40.0" style="-fx-padding: 10;">
+        <Label fx:id="scoreLabel" text="Score: 0" style="-fx-text-fill: #eedada; -fx-background-color: black;" />
+        <Label fx:id="livesLabel" text="Lives: 3" style="-fx-text-fill: white; -fx-background-color: black;" />
+    </HBox>
+
+    <!-- Pane für das Canvas -->
+    <Pane prefHeight="360.0">
+        <Canvas fx:id="canvas" width="600.0" height="360.0" onKeyPressed="#handleKeyPress" />
+    </Pane>
+
+</VBox>
