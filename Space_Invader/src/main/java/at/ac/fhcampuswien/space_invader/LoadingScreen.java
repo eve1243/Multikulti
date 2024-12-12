@@ -25,7 +25,7 @@ public class LoadingScreen extends Application {
         stage.setScene(scene);
 
         // Setze den Titel für das Fenster
-        stage.setTitle("Loading Screen");
+        stage.setTitle("Game Screen");
 
         // Stelle sicher, dass das Fenster die FXML-Größe hat
         stage.sizeToScene();
