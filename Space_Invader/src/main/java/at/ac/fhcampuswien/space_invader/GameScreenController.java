@@ -2,11 +2,16 @@ package at.ac.fhcampuswien.space_invader;
 
 import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -48,7 +53,11 @@ public class GameScreenController {
         AnimationTimer animationTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                updateSmallSquares(now);
+                try {
+                    updateSmallSquares(now);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
                 drawAll(); // Zeichne alles (Hauptquadrat und kleine Quadrate)
             }
         };
@@ -78,7 +87,7 @@ public class GameScreenController {
     }
 
     // Methode zum Aktualisieren der kleinen Quadrate
-    private void updateSmallSquares(long now) {
+    private void updateSmallSquares(long now) throws IOException {
         for (SmallSquare smallSquare : smallSquares) {
             smallSquare.move(canvas.getWidth()); // Bewege jedes kleine Quadrat
 
@@ -94,15 +103,38 @@ public class GameScreenController {
         }
     }
 
-    // Methode zum Leben abziehen, wenn ein Projektil das Hauptquadrat trifft
     private void loseLife() {
         lives--;
         updateLivesLabel();
         if (lives <= 0) {
             System.out.println("Game Over");
-            // Hier könntest du die Logik für das Spielende hinzufügen
+            try {
+                // Lade das FXML-File
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("end-screen.fxml"));
+                Parent root = loader.load();
+
+                // Hole den Controller der Endbildschirm-Szene
+                EndScreenController endScreenController = loader.getController();
+
+                // Übergib den finalen Score
+                endScreenController.setFinalScore(score);
+
+                // Erstelle eine neue Szene
+                Scene scene = new Scene(root);
+
+                // Hole das aktuelle Fenster
+                Stage stage = (Stage) canvas.getScene().getWindow();
+
+                // Setze die neue Szene
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace(); // Gibt den Fehler aus, falls das FXML nicht geladen werden kann
+                System.err.println("Fehler beim Laden der Endbildschirm-Szene: " + e.getMessage());
+            }
         }
     }
+
 
     // Methode zum Zeichnen von Hauptquadrat und kleinen Quadraten
     private void drawAll() {
