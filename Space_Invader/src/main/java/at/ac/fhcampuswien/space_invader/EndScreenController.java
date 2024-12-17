@@ -6,7 +6,8 @@ import javafx.scene.control.Label;
 public class EndScreenController {
 
     @FXML
-    private Label finalScoreLabel; // Label zum Anzeigen des finalen Scores
+    private Label finalScoreLabel;
+    // Label zum Anzeigen des finalen Scores
 
     // Methode zum Setzen des finalen Scores
     public void setFinalScore(int score) {
