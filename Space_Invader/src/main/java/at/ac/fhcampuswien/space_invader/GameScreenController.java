@@ -41,7 +41,7 @@ public class GameScreenController {
     private final Random random = new Random();
 
     public GameScreenController() {
-        this.score = 300; // Setze den Anfangsscore
+        this.score = 0; // Setze den Anfangsscore
         this.lives = 3; // Setze die Anfangsanzahl der Lives
     }
 
@@ -195,9 +195,10 @@ public class GameScreenController {
                 }
             }
         }
-
         // Entferne die Objekte außerhalb der Iteration
         smallSquares.removeAll(smallSquaresToRemove);
+        score += smallSquaresToRemove.size() * 100; // Erhöhe den Score
+        updateScoreLabel(); // Aktualisiere das Score-Label
         playerProjectiles.removeAll(projectilesToRemove);
     }
 
