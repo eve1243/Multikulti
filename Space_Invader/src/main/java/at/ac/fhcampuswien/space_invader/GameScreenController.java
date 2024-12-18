@@ -54,11 +54,7 @@
             AnimationTimer animationTimer = new AnimationTimer() {
                 @Override
                 public void handle(long now) {
-                    try {
-                        updateSmallSquares(now);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    updateSmallSquares(now);
                     drawAll(); // Zeichne alles (Hauptquadrat und kleine Quadrate)
                 }
             };
@@ -109,34 +105,27 @@
 
 
 
-        private void updateSmallSquares(long now) throws IOException {
+        private void updateSmallSquares(long now) {
             for (SmallSquare smallSquare : smallSquares) {
-                // Bewegung auf der X-Achse
+                // Bewegung des kleinen Quadrats
                 smallSquare.move(canvas.getWidth());
 
-                // Überprüfen, ob das Quadrat nach unten geht und das Viertel erreicht hat
+                // Überprüfen, ob das Quadrat die Richtung ändern soll (nach oben/unten)
                 if (smallSquare.isMovingDown() && smallSquare.getY() >= canvas.getHeight() / 4) {
                     smallSquare.setMovingDown(false); // Richtung wechseln (nach oben)
-                }
-                // Überprüfen, ob das Quadrat nach oben geht und den oberen Rand erreicht hat
-                else if (!smallSquare.isMovingDown() && smallSquare.getY() <= 0) {
+                } else if (!smallSquare.isMovingDown() && smallSquare.getY() <= 0) {
                     smallSquare.setMovingDown(true); // Richtung wechseln (nach unten)
                 }
 
-                // Geschwindigkeit variieren, basierend auf einer individuellen Geschwindigkeit
+                // Geschwindigkeit aktualisieren
                 smallSquare.updatePositionWithSpeed();
 
-                // Zufällige Verzögerung oder Änderung der Richtung für Unabhängigkeit
-                if (Math.random() < 0.01) { // 1% Wahrscheinlichkeit pro Frame
-                    smallSquare.setMovingDown(!smallSquare.isMovingDown()); // Richtung zufällig ändern
-                }
-
-                // Projektil abschießen, falls genug Zeit vergangen ist
-                if (smallSquare.canShootProjectile(now)) {
+                // Prüfe, ob das Quadrat ein Projektil abschießen soll
+                if (smallSquare.canShootProjectile(now, squareX, squareSize)) {
                     smallSquare.shootProjectile();
                 }
 
-                // Überprüfen, ob ein Projektil das Hauptquadrat trifft
+                // Prüfe, ob das Projektil das Hauptquadrat trifft
                 if (smallSquare.isProjectileCollidingWith(squareX, squareY, squareSize)) {
                     loseLife(); // Leben abziehen, wenn das Hauptquadrat getroffen wird
                 }
