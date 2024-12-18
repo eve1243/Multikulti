@@ -47,8 +47,8 @@
             updateLivesLabel(); // Initialisiere das Lives-Label
             drawSquare(); // Quadrat initial zeichnen
 
-            // Erstelle bis zu 7 kleinere Quadrate mit zufälligen Positionen
-            createSmallSquares();
+            // Erstelle kleine Quadrate nacheinander
+            createSmallSquaresSequentially();
 
             // Animation Timer für die Bewegung der kleinen Quadrate
             AnimationTimer animationTimer = new AnimationTimer() {
@@ -78,23 +78,65 @@
             }
         }
 
-        private void createSmallSquares() {
-            for (int i = 0; i < 7; i++) {
-                double smallSquareX = random.nextDouble() * (canvas.getWidth() - 20); // Zufällige X-Position
-                smallSquares.add(new SmallSquare(smallSquareX, squareY - 60)); // Position weiter oben (60 Pixel über dem Hauptquadrat)
-            }
+
+        private void createSmallSquaresSequentially() {
+            final int totalSquares = 7; // Anzahl der Quadrate
+            final long delay = 500_000_000; // Verzögerung in Nanosekunden (0,5 Sekunden)
+
+            AnimationTimer squareCreator = new AnimationTimer() {
+                private int createdSquares = 0;
+                private long lastCreationTime = 0;
+
+                @Override
+                public void handle(long now) {
+                    if (createdSquares < totalSquares && now - lastCreationTime >= delay) {
+                        double smallSquareX = random.nextDouble() * (canvas.getWidth() - 20); // Zufällige X-Position
+                        double startY = -50; // Startposition außerhalb des sichtbaren Bereichs
+                        smallSquares.add(new SmallSquare(smallSquareX, startY)); // Hinzufügen mit Startposition
+
+                        createdSquares++;
+                        lastCreationTime = now; // Aktualisiere den letzten Erstellungszeitpunkt
+                    }
+
+                    if (createdSquares >= totalSquares) {
+                        stop(); // Beende den Timer, wenn alle Quadrate erstellt wurden
+                    }
+                }
+            };
+
+            squareCreator.start(); // Starte den Timer
         }
+
+
 
         private void updateSmallSquares(long now) throws IOException {
             for (SmallSquare smallSquare : smallSquares) {
-                smallSquare.move(canvas.getWidth()); // Bewege jedes kleine Quadrat
+                // Bewegung auf der X-Achse
+                smallSquare.move(canvas.getWidth());
 
-                // Überprüfe, ob es Zeit ist, ein Projektil zu schießen (alle 2 Sekunden)
+                // Überprüfen, ob das Quadrat nach unten geht und das Viertel erreicht hat
+                if (smallSquare.isMovingDown() && smallSquare.getY() >= canvas.getHeight() / 4) {
+                    smallSquare.setMovingDown(false); // Richtung wechseln (nach oben)
+                }
+                // Überprüfen, ob das Quadrat nach oben geht und den oberen Rand erreicht hat
+                else if (!smallSquare.isMovingDown() && smallSquare.getY() <= 0) {
+                    smallSquare.setMovingDown(true); // Richtung wechseln (nach unten)
+                }
+
+                // Geschwindigkeit variieren, basierend auf einer individuellen Geschwindigkeit
+                smallSquare.updatePositionWithSpeed();
+
+                // Zufällige Verzögerung oder Änderung der Richtung für Unabhängigkeit
+                if (Math.random() < 0.01) { // 1% Wahrscheinlichkeit pro Frame
+                    smallSquare.setMovingDown(!smallSquare.isMovingDown()); // Richtung zufällig ändern
+                }
+
+                // Projektil abschießen, falls genug Zeit vergangen ist
                 if (smallSquare.canShootProjectile(now)) {
                     smallSquare.shootProjectile();
                 }
 
-                // Überprüfe, ob ein Projektil das Hauptquadrat trifft
+                // Überprüfen, ob ein Projektil das Hauptquadrat trifft
                 if (smallSquare.isProjectileCollidingWith(squareX, squareY, squareSize)) {
                     loseLife(); // Leben abziehen, wenn das Hauptquadrat getroffen wird
                 }
