@@ -15,12 +15,13 @@ public class SmallSquare {
     private boolean movingDown = true; // Startet mit Bewegung nach unten
     private double speed; // Geschwindigkeit des kleinen Quadrats
 
+    // Konstruktor für das kleine Quadrat
     public SmallSquare(double x, double y) {
         this.x = x;
         this.y = y;
-        this.movingRight = Math.random() > 0.2; // Zufällige Bewegungsrichtung (rechts oder links)
+        this.movingRight = Math.random() > 0.5; // Zufällige Bewegungsrichtung (rechts oder links)
         this.movingDown = true; // Standardmäßig nach unten
-        this.speed = 1 + Math.random(); // Zufällige Bewegungsrichtung (rechts oder links)
+        this.speed = 1 + Math.random(); // Zufällige Geschwindigkeit
 
         // Setze eine zufällige Abkühlzeit zwischen 2 und 4 Sekunden
         long minCooldown = 2000000000L; // 2 Sekunden in Nanosekunden
@@ -92,7 +93,7 @@ public class SmallSquare {
     public void shootProjectile() {
         if (projectile == null || projectile.isOffScreen()) {
             // Erstelle ein neues Projektil unter dem Quadrat
-            projectile = new Projectile(x + size / 2 - 2, y + size);
+            projectile = new Projectile(x + size / 2 - 2, y + size, false); // Schießt nach unten
         }
     }
 

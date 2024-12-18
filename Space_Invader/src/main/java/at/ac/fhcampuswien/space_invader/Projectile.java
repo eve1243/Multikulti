@@ -5,35 +5,41 @@ import javafx.scene.paint.Color;
 
 public class Projectile {
 
-    private double x; // X-Position des Projektils
-    private double y; // Y-Position des Projektils
-    private final double width = 4; // Breite des Projektils
-    private final double height = 10; // Höhe des Projektils
-    private final double speed = 4; // Geschwindigkeit des Projektils
+    private double x;
+    private double y;
+    private final double size = 6; // Größe des Projektils
+    private final double speed = 5; // Geschwindigkeit des Projektils
+    private final boolean isPlayerProjectile; // Flag, ob es das Spieler-Projektil ist
 
-    public Projectile(double x, double y) {
+    // Konstruktor für Projektil
+    public Projectile(double x, double y, boolean isPlayerProjectile) {
         this.x = x;
         this.y = y;
+        this.isPlayerProjectile = isPlayerProjectile;
     }
 
-    // Methode zur Bewegung des Projektils nach unten
+    // Methode zum Bewegen des Projektils (je nach Richtung)
     public void move() {
-        y += speed;
+        if (isPlayerProjectile) {
+            y -= speed; // Spieler-Projektil bewegt sich nach oben
+        } else {
+            y += speed; // Kleine Quadrate schießen nach unten
+        }
     }
 
     // Methode zum Zeichnen des Projektils
     public void draw(GraphicsContext gc) {
-        gc.setFill(Color.BLACK);
-        gc.fillRect(x, y, width, height); // Zeichne das Projektil
+        gc.setFill(Color.BLACK); // Projektilfarbe
+        gc.fillRect(x, y, size, size); // Zeichne das Projektil an der aktuellen Position
     }
 
-    // Überprüfen, ob das Projektil den Bildschirm verlassen hat
+    // Überprüfen, ob das Projektil den Bildschirm verlässt
     public boolean isOffScreen() {
-        return y > 600; // Angenommen, der Canvas ist 600 Pixel hoch
+        return y < 0 || y > 600; // Für den Fall, dass das Projektil den Bildschirm verlässt
     }
 
-    // Überprüfe, ob das Projektil das Ziel trifft (Hauptquadrat)
+    // Überprüfen, ob das Projektil mit dem Hauptquadrat kollidiert
     public boolean isColliding(double targetX, double targetY, double targetSize) {
-        return x < targetX + targetSize && x + width > targetX && y < targetY + targetSize && y + height > targetY;
+        return x < targetX + targetSize && x + size > targetX && y < targetY + targetSize && y + size > targetY;
     }
 }
