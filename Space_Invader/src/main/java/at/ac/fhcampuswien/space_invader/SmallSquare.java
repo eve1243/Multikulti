@@ -106,6 +106,10 @@ public class SmallSquare {
         return false;
     }
 
+    public double getSize() {
+        return size;
+    }
+
     public boolean isMovingDown() {
         return movingDown;
     }

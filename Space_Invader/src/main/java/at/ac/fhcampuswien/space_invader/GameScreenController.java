@@ -54,15 +54,19 @@ public class GameScreenController {
         createSmallSquaresSequentially();
 
         // Animation Timer für die Bewegung der kleinen Quadrate
+        // Animation Timer für die Bewegung der kleinen Quadrate
         AnimationTimer animationTimer = new AnimationTimer() {
             @Override
             public void handle(long now) {
-                updateSmallSquares(now);
-                updatePlayerProjectiles(); // Aktualisiere die Projektilpositionen
-                drawAll(); // Zeichne alles (Hauptquadrat und kleine Quadrate)
+                updateSmallSquares(now); // Aktualisiere die Positionen der kleinen Quadrate
+                updatePlayerProjectiles(); // Aktualisiere die Positionen der Spieler-Projektile
+
+                checkCollisionsWithSmallSquares(); // Überprüfe Kollisionen mit kleinen Quadraten
+
+                drawAll(); // Zeichne alles (Hauptquadrat, kleine Quadrate und Projektile)
             }
         };
-        animationTimer.start();
+        animationTimer.start(); // Starte den Timer
 
         if (canvas.getScene() != null) {
             canvas.getScene().setOnKeyPressed(this::handleKeyPress);
@@ -107,15 +111,7 @@ public class GameScreenController {
         playerProjectiles.add(projectile); // Füge das Projektil der Liste hinzu
     }
 
-    // Methode zum Aktualisieren der Projektilpositionen
-    private void updatePlayerProjectiles() {
-        for (Projectile projectile : playerProjectiles) {
-            projectile.move(); // Bewege das Projektil
-        }
 
-        // Entferne Projektil, wenn es den Bildschirm verlassen hat
-        playerProjectiles.removeIf(Projectile::isOffScreen);
-    }
 
     private void drawAll() {
         GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -172,6 +168,37 @@ public class GameScreenController {
         };
 
         squareCreator.start(); // Starte den Timer
+    }
+
+    private void updatePlayerProjectiles() {
+        // Bewege alle Projektile des Spielers
+        for (Projectile projectile : playerProjectiles) {
+            projectile.move(); // Bewege das Projektil
+        }
+
+        // Entferne Projektil, wenn es den Bildschirm verlassen hat
+        playerProjectiles.removeIf(Projectile::isOffScreen);
+    }
+
+    private void checkCollisionsWithSmallSquares() {
+        // Verwende eine temporäre Liste, um die zu entfernenden Elemente zu speichern
+        List<Projectile> projectilesToRemove = new ArrayList<>();
+        List<SmallSquare> smallSquaresToRemove = new ArrayList<>();
+
+        // Überprüfe Kollisionen für jedes Projektil
+        for (Projectile projectile : playerProjectiles) {
+            for (SmallSquare smallSquare : smallSquares) {
+                if (projectile.isColliding(smallSquare.getX(), smallSquare.getY(), smallSquare.getSize())) {
+                    smallSquaresToRemove.add(smallSquare); // Füge das kleine Quadrat zur Entfernen-Liste hinzu
+                    projectilesToRemove.add(projectile); // Füge das Projektil zur Entfernen-Liste hinzu
+                    break; // Wenn ein Projektil kollidiert, gehe zur nächsten Iteration
+                }
+            }
+        }
+
+        // Entferne die Objekte außerhalb der Iteration
+        smallSquares.removeAll(smallSquaresToRemove);
+        playerProjectiles.removeAll(projectilesToRemove);
     }
 
     // Methode zum Aktualisieren der kleinen Quadrate
