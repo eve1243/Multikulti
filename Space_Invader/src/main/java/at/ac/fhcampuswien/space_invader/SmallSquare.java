@@ -79,7 +79,7 @@ public class SmallSquare {
     // Überprüfe, ob ein Projektil abgeschossen werden kann
     public boolean canShootProjectile(long currentTime, double targetX, double targetSize) {
         // Prüfe, ob das große Quadrat direkt unter dem kleinen Quadrat ist
-        boolean isTargetBelow = targetX + targetSize > x && targetX < x + size;
+        boolean isTargetBelow = (targetX + targetSize / 2) > (x - size / 2) && (targetX + targetSize / 2) < (x + size / 2);
 
         // Schießen nur, wenn das Ziel unter dem Quadrat ist und die Abklingzeit vorbei ist
         if (isTargetBelow && (currentTime - lastShootTime >= shootCooldown)) {

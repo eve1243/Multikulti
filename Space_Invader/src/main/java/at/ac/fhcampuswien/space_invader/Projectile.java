@@ -29,7 +29,7 @@ public class Projectile {
 
     // Methode zum Zeichnen des Projektils
     public void draw(GraphicsContext gc) {
-        gc.setFill(Color.BLACK); // Projektilfarbe
+        gc.setFill(Color.WHITESMOKE); // Projektilfarbe
         gc.fillRect(x, y, size, size); // Zeichne das Projektil an der aktuellen Position
     }
 

@@ -5,6 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.canvas.Canvas?>
 
+<?import javafx.scene.image.ImageView?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="at.ac.fhcampuswien.space_invader.GameScreenController"
@@ -22,8 +23,12 @@
     </HBox>
 
     <!-- Pane für das Canvas -->
-    <Pane prefHeight="360.0">
+    <Pane prefHeight="360.0" style="-fx-background-color: black;">
+        <!-- Hintergrundbild -->
+        <ImageView fx:id="backgroundImageView" fitWidth="300.0" fitHeight="260.0" />
+        <!-- Canvas -->
         <Canvas fx:id="canvas" width="600.0" height="360.0" onKeyPressed="#handleKeyPress" />
     </Pane>
+
 
 </VBox>

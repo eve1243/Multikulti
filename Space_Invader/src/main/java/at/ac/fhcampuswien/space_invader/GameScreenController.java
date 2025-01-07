@@ -9,6 +9,8 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
@@ -25,6 +27,9 @@ public class GameScreenController {
     private Label livesLabel; // Label für die Lives
     @FXML
     private Canvas canvas; // Canvas für das Quadrat
+    @FXML
+    private ImageView backgroundImageView; // ImageView für das Hintergrundbild
+
 
     private int score; // Aktueller Score
     private int lives; // Verfügbare Lives
@@ -46,8 +51,17 @@ public class GameScreenController {
     }
 
     public void initialize() {
+        // Setze das Hintergrundbild
+        Image backgroundImage = new Image("file:src/main/resources/at/ac/fhcampuswien/space_invader/images/computer-background.png");
+        backgroundImageView.setImage(backgroundImage);
+        backgroundImageView.setPreserveRatio(false);
+
         updateScoreLabel(); // Initialisiere das Score-Label
         updateLivesLabel(); // Initialisiere das Lives-Label
+        // Setze den Hintergrund des Canvas auf transparent
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
         drawSquare(); // Quadrat initial zeichnen
 
         // Erstelle kleine Quadrate nacheinander

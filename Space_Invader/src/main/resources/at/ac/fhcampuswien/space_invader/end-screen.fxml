@@ -11,5 +11,10 @@
        <TreeTableColumn fx:id="score" prefWidth="177.33335876464844" text="score" />
      </columns>
    </TreeTableView>
-   <Label layoutX="377.0" layoutY="75.0" prefHeight="31.0" prefWidth="142.0" text="Label" fx:id="finalScoreLabel"/>
+    <!-- Neustarten-Button -->
+    <Button fx:id="restartButton" layoutX="377.0" layoutY="260.0" onAction="#handleRestartButtonClick" prefWidth="150.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Restart Game" />
+
+    <!-- Beenden-Button -->
+    <Button fx:id="exitButton" layoutX="377.0" layoutY="322.0" onAction="#handleExitButtonClick" prefWidth="150.0" style="-fx-background-color: #FF5252; -fx-text-fill: white;" text="Exit Game" />
+   <Label fx:id="finalScoreLabel" layoutX="381.0" layoutY="139.0" prefHeight="31.0" prefWidth="142.0" text="Label" />
 </AnchorPane>
