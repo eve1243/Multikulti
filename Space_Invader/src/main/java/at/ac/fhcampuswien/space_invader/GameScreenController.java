@@ -9,7 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -249,21 +249,23 @@ public class GameScreenController {
             }
         }
     }
+
+    private boolean gameEnded = false;
+
     private void endGame() {
+        if (gameEnded) return; // Beende, wenn der Endscreen bereits angezeigt wird
+        gameEnded = true;
+
         try {
-            // Lade den Endscreen
             FXMLLoader loader = new FXMLLoader(getClass().getResource("end-screen.fxml"));
             Parent root = loader.load();
 
             EndScreenController endScreenController = loader.getController();
-
-            // Setze den Spieler und den Endscore
             Player player = new Player(playerNameLabel.getText(), score);
             endScreenController.setPlayer(player);
 
             Scene scene = new Scene(root);
 
-            // Zeige den Endscreen auf der aktuellen Stage
             Platform.runLater(() -> {
                 Stage stage = (Stage) canvas.getScene().getWindow();
                 if (stage != null) {
@@ -276,34 +278,15 @@ public class GameScreenController {
         }
     }
 
-
     private void loseLife() {
         lives--;
         updateLivesLabel();
-        if (lives <= 0) {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("end-screen.fxml"));
-                Parent root = loader.load();
 
-                EndScreenController endScreenController = loader.getController();
-
-                Player player = new Player(playerNameLabel.getText(), score);
-                endScreenController.setPlayer(player);
-
-                Scene scene = new Scene(root);
-
-                Platform.runLater(() -> {
-                    Stage stage = (Stage) canvas.getScene().getWindow();
-                    if (stage != null) {
-                        stage.setScene(scene);
-                        stage.show();
-                    }
-                });
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        if (lives <= 0 && !gameEnded) {
+            endGame();
         }
     }
+
 
     private void updateScoreLabel() {
         scoreLabel.setText("Score: " + score);
