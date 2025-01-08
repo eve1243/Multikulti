@@ -16,5 +16,6 @@
 
     <!-- Beenden-Button -->
     <Button fx:id="exitButton" layoutX="377.0" layoutY="322.0" onAction="#handleExitButtonClick" prefWidth="150.0" style="-fx-background-color: #FF5252; -fx-text-fill: white;" text="Exit Game" />
-   <Label fx:id="finalScoreLabel" layoutX="381.0" layoutY="139.0" prefHeight="31.0" prefWidth="142.0" text="Label" />
+    <Label fx:id="playerNameLabel" layoutX="381.0" layoutY="121.0" text="Player: " />
+    <Label fx:id="finalScoreLabel" layoutX="381.0" layoutY="139.0" prefHeight="31.0" prefWidth="142.0" text="Label" />
 </AnchorPane>

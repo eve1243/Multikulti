@@ -8,7 +8,7 @@ public class Projectile {
     private double x;
     private double y;
     private final double size = 5; // Größe des Projektils
-    private final double speed = 5; // Geschwindigkeit des Projektils
+    private final double speed = 3.5; // Geschwindigkeit des Projektils
     private final boolean isPlayerProjectile; // Flag, ob es das Spieler-Projektil ist
 
     // Konstruktor für Projektil

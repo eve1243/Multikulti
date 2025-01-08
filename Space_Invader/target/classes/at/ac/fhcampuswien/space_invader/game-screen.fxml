@@ -5,6 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.canvas.Canvas?>
 
+<?import javafx.scene.image.ImageView?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       fx:controller="at.ac.fhcampuswien.space_invader.GameScreenController"
@@ -17,13 +18,19 @@
 
     <!-- HBox für Score und Lives -->
     <HBox alignment="CENTER_LEFT" spacing="20" prefHeight="40.0" style="-fx-padding: 10;">
+
         <Label fx:id="scoreLabel" text="Score: 0" style="-fx-text-fill: #eedada; -fx-background-color: black;" />
+        <Label fx:id="playerNameLabel" layoutX="20" layoutY="20" text="Player Name: " />
         <Label fx:id="livesLabel" text="Lives: 3" style="-fx-text-fill: white; -fx-background-color: black;" />
     </HBox>
 
     <!-- Pane für das Canvas -->
-    <Pane prefHeight="360.0">
+    <Pane prefHeight="360.0" style="-fx-background-color: black;">
+        <!-- Hintergrundbild -->
+        <ImageView fx:id="backgroundImageView" fitWidth="300.0" fitHeight="260.0" />
+        <!-- Canvas -->
         <Canvas fx:id="canvas" width="600.0" height="360.0" onKeyPressed="#handleKeyPress" />
     </Pane>
+
 
 </VBox>

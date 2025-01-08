@@ -15,6 +15,8 @@ public class EndScreenController {
     // Label zum Anzeigen des finalen Scores
     @FXML
     private Button restartButton; // Button für Neustart
+    @FXML
+    private Label playerNameLabel; // Label für den Spielernamen
     // Neustart des Spiels
     @FXML
     private void handleRestartButtonClick() {
@@ -22,6 +24,12 @@ public class EndScreenController {
             // Lade den Game-Screen
             FXMLLoader loader = new FXMLLoader(getClass().getResource("game-screen.fxml"));
             Parent root = loader.load();
+
+            // Hole das GameScreenController-Objekt
+            GameScreenController controller = loader.getController();
+            Player player = new Player(playerNameLabel.getText(), 0);
+            controller.setPlayer(player);
+
 
             // Erstelle eine neue Szene
             Scene scene = new Scene(root);
@@ -41,8 +49,9 @@ public class EndScreenController {
         Stage stage = (Stage) restartButton.getScene().getWindow();
         stage.close(); // Schließt das aktuelle Fenster
     }
-    // Methode zum Setzen des finalen Scores
-    public void setFinalScore(int score) {
-        finalScoreLabel.setText("Final Score: " + score);
+
+    public void setPlayer(Player player) {
+        finalScoreLabel.setText("Final Score: " + player.getScore());
+        playerNameLabel.setText( player.getName());
     }
 }

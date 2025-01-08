@@ -18,7 +18,9 @@
 
     <!-- HBox für Score und Lives -->
     <HBox alignment="CENTER_LEFT" spacing="20" prefHeight="40.0" style="-fx-padding: 10;">
+
         <Label fx:id="scoreLabel" text="Score: 0" style="-fx-text-fill: #eedada; -fx-background-color: black;" />
+        <Label fx:id="playerNameLabel" layoutX="20" layoutY="20" text="Player Name: " />
         <Label fx:id="livesLabel" text="Lives: 3" style="-fx-text-fill: white; -fx-background-color: black;" />
     </HBox>
 

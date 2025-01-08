@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -29,6 +30,9 @@ public class GameScreenController {
     private Canvas canvas; // Canvas für das Quadrat
     @FXML
     private ImageView backgroundImageView; // ImageView für das Hintergrundbild
+    @FXML
+    private Label playerNameLabel;
+
 
 
     private int score; // Aktueller Score
@@ -209,12 +213,19 @@ public class GameScreenController {
                 }
             }
         }
+
         // Entferne die Objekte außerhalb der Iteration
         smallSquares.removeAll(smallSquaresToRemove);
         score += smallSquaresToRemove.size() * 100; // Erhöhe den Score
         updateScoreLabel(); // Aktualisiere das Score-Label
         playerProjectiles.removeAll(projectilesToRemove);
+
+        // Überprüfe, ob alle kleinen Quadrate entfernt wurden
+        if (smallSquares.isEmpty()) {
+            endGame(); // Wechsle zum Endscreen
+        }
     }
+
 
     // Methode zum Aktualisieren der kleinen Quadrate
     private void updateSmallSquares(long now) {
@@ -238,19 +249,46 @@ public class GameScreenController {
             }
         }
     }
+    private void endGame() {
+        try {
+            // Lade den Endscreen
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("end-screen.fxml"));
+            Parent root = loader.load();
+
+            EndScreenController endScreenController = loader.getController();
+
+            // Setze den Spieler und den Endscore
+            Player player = new Player(playerNameLabel.getText(), score);
+            endScreenController.setPlayer(player);
+
+            Scene scene = new Scene(root);
+
+            // Zeige den Endscreen auf der aktuellen Stage
+            Platform.runLater(() -> {
+                Stage stage = (Stage) canvas.getScene().getWindow();
+                if (stage != null) {
+                    stage.setScene(scene);
+                    stage.show();
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     private void loseLife() {
         lives--;
         updateLivesLabel();
         if (lives <= 0) {
-            System.out.println("Game Over");
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("end-screen.fxml"));
                 Parent root = loader.load();
 
                 EndScreenController endScreenController = loader.getController();
 
-                endScreenController.setFinalScore(score);
+                Player player = new Player(playerNameLabel.getText(), score);
+                endScreenController.setPlayer(player);
 
                 Scene scene = new Scene(root);
 
@@ -259,8 +297,6 @@ public class GameScreenController {
                     if (stage != null) {
                         stage.setScene(scene);
                         stage.show();
-                    } else {
-                        System.err.println("Stage ist null.");
                     }
                 });
             } catch (IOException e) {
@@ -275,5 +311,9 @@ public class GameScreenController {
 
     private void updateLivesLabel() {
         livesLabel.setText("Lives: " + lives);
+    }
+
+    public void setPlayer(Player player) {
+        playerNameLabel.setText(player.getName());
     }
 }
