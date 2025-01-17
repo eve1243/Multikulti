@@ -39,7 +39,7 @@ public class GameScreenController {
     private int lives; // Verfügbare Lives
 
     private long lastShootTime = 0; // Zeitpunkt des letzten Schusses
-    private final long SHOOT_COOLDOWN = 300_000_000; // Cooldown in Nanosekunden (0,3 Sekunden)
+    private final long SHOOT_COOLDOWN = 500_000_000; // Cooldown in Nanosekunden (0,5 Sekunden)
 
 
     private double squareX = 275; // Startposition des Hauptquadrats (X)
