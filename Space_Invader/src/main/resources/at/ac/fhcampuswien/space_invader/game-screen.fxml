@@ -1,35 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.canvas.Canvas?>
+        <?import javafx.scene.canvas.Canvas?>
+        <?import javafx.scene.control.Label?>
+        <?import javafx.scene.image.ImageView?>
+        <?import javafx.scene.layout.HBox?>
+        <?import javafx.scene.layout.Pane?>
+        <?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.image.ImageView?>
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="at.ac.fhcampuswien.space_invader.GameScreenController"
-      prefHeight="400.0" prefWidth="600.0">
+<VBox prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.fhcampuswien.space_invader.GameScreenController">
 
     <!-- Pane für den Spieletitel -->
     <Pane prefHeight="40.0">
-        <Label text="Space Invader" style="-fx-font-size: 24px; -fx-text-fill: black;" />
+        <Label layoutX="9.0" prefHeight="35.0" prefWidth="152.0" style="-fx-font-size: 24px; -fx-text-fill: black;" text="Space Invader" />
     </Pane>
 
     <!-- HBox für Score und Lives -->
-    <HBox alignment="CENTER_LEFT" spacing="20" prefHeight="40.0" style="-fx-padding: 10;">
-
-        <Label fx:id="scoreLabel" text="Score: 0" style="-fx-text-fill: #eedada; -fx-background-color: black;" />
+    <HBox alignment="CENTER_LEFT" prefHeight="57.0" prefWidth="600.0" spacing="20" style="-fx-padding: 10;">
         <Label fx:id="playerNameLabel" layoutX="20" layoutY="20" text="Player Name: " />
-        <Label fx:id="livesLabel" text="Lives: 3" style="-fx-text-fill: white; -fx-background-color: black;" />
+
+        <Label fx:id="scoreLabel" alignment="CENTER" prefHeight="17.0" prefWidth="72.0" style="-fx-text-fill: white; -fx-background-color: #0096c9;" text="Score: 0" textAlignment="CENTER" />
+        <Label fx:id="livesLabel" alignment="CENTER" prefHeight="17.0" prefWidth="56.0" style="-fx-text-fill: white; -fx-background-color: #0096c9;" text="Lives: 3" />
     </HBox>
 
     <!-- Pane für das Canvas -->
-    <Pane prefHeight="360.0" style="-fx-background-color: black;">
+    <Pane prefHeight="337.0" prefWidth="600.0" style="-fx-background-color: black;">
         <!-- Hintergrundbild -->
-        <ImageView fx:id="backgroundImageView" fitWidth="300.0" fitHeight="260.0" />
+        <ImageView fx:id="backgroundImageView" fitHeight="260.0" fitWidth="300.0" />
         <!-- Canvas -->
-        <Canvas fx:id="canvas" width="600.0" height="360.0" onKeyPressed="#handleKeyPress" />
+        <Canvas fx:id="canvas" height="350.0" layoutY="10.0" onKeyPressed="#handleKeyPress" width="600.0" />
     </Pane>
 
 

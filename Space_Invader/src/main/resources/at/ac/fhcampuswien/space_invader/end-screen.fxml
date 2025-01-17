@@ -1,21 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+        <?import javafx.scene.control.Button?>
+        <?import javafx.scene.control.Label?>
+        <?import javafx.scene.control.TreeTableColumn?>
+        <?import javafx.scene.control.TreeTableView?>
+        <?import javafx.scene.image.Image?>
+        <?import javafx.scene.image.ImageView?>
+        <?import javafx.scene.layout.AnchorPane?>
+        <?import javafx.scene.text.Font?>
+        <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.fhcampuswien.space_invader.EndScreenController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.fhcampuswien.space_invader.EndScreenController">
+    <ImageView fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
+        <image>
+            <Image url="@images/cosmos-bg.jpg" />
+        </image>
+    </ImageView>
+    <Text fill="WHITE" layoutX="87.0" layoutY="28.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Highscore Table" textAlignment="CENTER" wrappingWidth="181.3125">
+        <font>
+            <Font size="20.0" />
+        </font>
+    </Text>
 
-   <TreeTableView fx:id="finalscore" prefHeight="400.0" prefWidth="350.0">
-     <columns>
-       <TreeTableColumn fx:id="name" prefWidth="171.33333837985992" text="name" />
-       <TreeTableColumn fx:id="score" prefWidth="177.33335876464844" text="score" />
-     </columns>
-   </TreeTableView>
+    <TreeTableView fx:id="finalscore" layoutX="14.0" layoutY="43.0" prefHeight="344.0" prefWidth="327.0" style="-fx-background-color: #f0fbff;">
+        <columns>
+            <TreeTableColumn fx:id="name" prefWidth="171.33333837985992" text="name" />
+            <TreeTableColumn fx:id="score" prefWidth="177.33335876464844" text="score" />
+        </columns>
+    </TreeTableView>
     <!-- Neustarten-Button -->
-    <Button fx:id="restartButton" layoutX="377.0" layoutY="260.0" onAction="#handleRestartButtonClick" prefWidth="150.0" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Restart Game" />
+    <Button fx:id="restartButton" layoutX="405.0" layoutY="260.0" onAction="#handleRestartButtonClick" prefHeight="37.0" prefWidth="118.0" style="-fx-background-color: #0096c9; -fx-text-fill: white;" text="Restart Game" />
     <Label fx:id="noHighscoreLabel" layoutX="381.0" layoutY="168.0" prefHeight="31.0" prefWidth="142.0" />
     <!-- Beenden-Button -->
-    <Button fx:id="exitButton" layoutX="377.0" layoutY="322.0" onAction="#handleExitButtonClick" prefWidth="150.0" style="-fx-background-color: #FF5252; -fx-text-fill: white;" text="Exit Game" />
-    <Label fx:id="playerNameLabel" layoutX="381.0" layoutY="121.0" text="Player: " />
-    <Label fx:id="finalScoreLabel" layoutX="381.0" layoutY="139.0" prefHeight="31.0" prefWidth="142.0" text="Score: " />
+    <Button fx:id="exitButton" layoutX="405.0" layoutY="307.0" onAction="#handleExitButtonClick" prefHeight="37.0" prefWidth="118.0" style="-fx-background-color: #FF5252; -fx-text-fill: white;" text="Exit Game" />
+    <Label fx:id="playerNameLabel" layoutX="405.0" layoutY="121.0" style="-fx-text-fill: white;" text="Player: " />
+    <Label fx:id="finalScoreLabel" layoutX="405.0" layoutY="138.0" prefHeight="31.0" prefWidth="142.0" style="-fx-text-fill: white;" text="Score: " />
 </AnchorPane>
