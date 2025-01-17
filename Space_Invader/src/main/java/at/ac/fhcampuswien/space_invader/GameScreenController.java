@@ -38,6 +38,10 @@ public class GameScreenController {
     private int score; // Aktueller Score
     private int lives; // Verfügbare Lives
 
+    private long lastShootTime = 0; // Zeitpunkt des letzten Schusses
+    private final long SHOOT_COOLDOWN = 300_000_000; // Cooldown in Nanosekunden (0,3 Sekunden)
+
+
     private double squareX = 275; // Startposition des Hauptquadrats (X)
     private final double squareY = 180; // Y-Position des Hauptquadrats (fest)
     private final double squareSize = 50; // Größe des Hauptquadrats
@@ -123,11 +127,16 @@ public class GameScreenController {
         }
     }
 
-    // Methode, um ein Projektil vom großen Quadrat zu schießen
     private void shootPlayerProjectile() {
-        Projectile projectile = new Projectile(squareX + squareSize / 2 - 2, squareY, true);
-        playerProjectiles.add(projectile); // Füge das Projektil der Liste hinzu
+        long currentTime = System.nanoTime(); // Aktuelle Zeit in Nanosekunden
+        if (currentTime - lastShootTime >= SHOOT_COOLDOWN) {
+            // Wenn genug Zeit seit dem letzten Schuss vergangen ist
+            Projectile projectile = new Projectile(squareX + squareSize / 2 - 2, squareY, true);
+            playerProjectiles.add(projectile); // Füge das Projektil der Liste hinzu
+            lastShootTime = currentTime; // Setze den Zeitpunkt des letzten Schusses
+        }
     }
+
 
 
 
